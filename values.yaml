@@ -1,0 +1,26 @@
+web:
+  image: "$AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/student-web:latest"
+  replicas: 1
+  containerPort: 80
+  nodePort: 30080
+
+app:
+  image: "$AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/student-app:latest"
+  replicas: 1
+  containerPort: 8080
+
+db:
+  image: mariadb:10.5
+  rootPassword: "ChangeMeRootPass"   # override with secrets recommended
+  database: "studentdb"
+  user: "studentuser"
+  password: "studentpass"
+  port: 3306
+  persistence:
+    enabled: true
+    storageClass: ""  # set if required
+    size: 5Gi
+serviceType:
+  web: LoadBalancer
+  app: ClusterIP
+  db: ClusterIP

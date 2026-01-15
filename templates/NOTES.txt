@@ -1,0 +1,3 @@
+To access the web UI:
+1. Run: kubectl get svc student-web
+2. Look for EXTERNAL-IP (if using cloud LB) or use nodeIP:{{ .Values.web.nodePort }}

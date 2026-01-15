@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Student Registration</title>
+</head>
+<body>
+  <h1>Student Registration</h1>
+  <form id="studentForm">
+    <label>Name: <input type="text" name="name" required></label><br><br>
+    <label>Contact Number: <input type="text" name="contact_number" required></label><br><br>
+    <label>Address: <input type="text" name="address" required></label><br><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('studentForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        name: form.name.value,
+        contact_number: form.contact_number.value,
+        address: form.address.value
+      };
+      try {
+        // POST to tomcat service inside cluster (service name student-app, port 8080)
+        const resp = await fetch('http://'+location.hostname+':8080/student-app/api/students', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        });
+        const text = await resp.text();
+        document.getElementById('result').innerText = text || 'Data submitted (check DB)';
+      } catch (err) {
+        document.getElementById('result').innerText = 'Submission failed: ' + err;
+      }
+    });
+  </script>
+</body>
+</html>

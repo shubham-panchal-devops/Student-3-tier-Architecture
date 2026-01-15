@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: student-web-config
+data:
+  index.html: |
+{{ .Files.Get "web/index.html" | indent 4 }}

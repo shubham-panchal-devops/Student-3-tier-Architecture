@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: student-db-pvc
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: {{ .Values.db.persistence.size }}
+{{- if .Values.db.persistence.storageClass }}
+  storageClassName: "{{ .Values.db.persistence.storageClass }}"
+{{- end }}
